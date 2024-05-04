@@ -330,257 +330,254 @@ $(document).ready(function () {
                                 table6 += "</table></div></div></div></div>";
                                 $("#hasil-matrix-concordance").html(table6)
                                 // HASIL MATRIX DISCONCORDANCE
-                                setTimeout(() => {
-                                    $.ajax({
-                                        data: { array: collect_dis },
-                                        url: "/matrix_dis",
-                                        type: "GET",
-                                        dataType: 'json',
-                                        success: function (response) {
-                                            $("#spinner").html("")
-                                            let hasil = response.hasil
-                                            let matrix_disconcordance = response.success
-                                            let matrix_element = $("#matrix-disconcordance")
-                                            let table7 = `<div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h2>Table Hasil Matrix Corcondance</h2>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <table class='table table-bordered table-hover dtr-inline'>
-                                                            <thead>
-                                                                <th>Perbandingan</th>
-                                                                <th>(Σ Disconcordance) Nilai</th>
-                                                            </thead>
-                                                            <tbody>
-                                                            `;
-                                            matrix_disconcordance.map((a) => {
-                                                table7 += `
-                                                <tr>
-                                                    <td>${a.name}</td>
-                                                    <td class="sum-matrix-disconcordance">${a.nilai}</td>
-                                                </tr>
-                                                `
-                                            })
-                                            table7 += `</tbody></table></div></div></div>`;
-                                            matrix_element.html(table7)
-    
-                                            // HASIL MATRIX DISCONCORDANCE
-                                            let table8 = `<div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="card">
-                                                                    <div class="card-header">
-                                                                    <h2>Table Hasil Matrix Discorcondance</h2>
-                                                                    </div>
-                                                                    <div class="card-body">
-                                                                        <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
-                                            // Menambahkan kolom untuk masing-masing transposedMatrix
-                                            for (let i = 0; i <= hasil[0].length; i++) {
-                                                table8 += "<th>A " + (i + 1) + "</th>";
+                                $.ajax({
+                                    data: { array: collect_dis },
+                                    url: "/matrix_dis",
+                                    type: "GET",
+                                    dataType: 'json',
+                                    success: function (response) {
+                                        $("#spinner").html("")
+                                        let hasil = response.hasil
+                                        let matrix_disconcordance = response.success
+                                        let matrix_element = $("#matrix-disconcordance")
+                                        let table7 = `<div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h2>Table Hasil Matrix Corcondance</h2>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table class='table table-bordered table-hover dtr-inline'>
+                                                        <thead>
+                                                            <th>Perbandingan</th>
+                                                            <th>(Σ Disconcordance) Nilai</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        `;
+                                        matrix_disconcordance.map((a) => {
+                                            table7 += `
+                                            <tr>
+                                                <td>${a.name}</td>
+                                                <td class="sum-matrix-disconcordance">${a.nilai}</td>
+                                            </tr>
+                                            `
+                                        })
+                                        table7 += `</tbody></table></div></div></div>`;
+                                        matrix_element.html(table7)
+
+                                        // HASIL MATRIX DISCONCORDANCE
+                                        let table8 = `<div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                <h2>Table Hasil Matrix Discorcondance</h2>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
+                                        // Menambahkan kolom untuk masing-masing transposedMatrix
+                                        for (let i = 0; i <= hasil[0].length; i++) {
+                                            table8 += "<th>A " + (i + 1) + "</th>";
+                                        }
+                                        table8 += '</tr>'
+                                        for (h = 0; h <= hasil[0].length; h++) {
+                                            table8 += '<tr>'
+                                            table8 += "<th>A " + (h + 1) + "</th>";
+                                            // Mengisi tabel dengan arrayBaru response.hasil
+                                            for (let i = 0; i < hasil[h].length; i++) {
+                                                if (h == i) {
+                                                    table8 += "<td style='background-color:#f1c40f' class='hasil-matrix-disconcordance'>0</td>";
+                                                    table8 += "<td class='hasil-matrix-disconcordance'>" + hasil[h][i] + "</td>";
+                                                } else {
+                                                    table8 += "<td class='hasil-matrix-disconcordance'>" + hasil[h][i] + "</td>";
+                                                }
                                             }
                                             table8 += '</tr>'
-                                            for (h = 0; h <= hasil[0].length; h++) {
-                                                table8 += '<tr>'
-                                                table8 += "<th>A " + (h + 1) + "</th>";
-                                                // Mengisi tabel dengan arrayBaru response.hasil
-                                                for (let i = 0; i < hasil[h].length; i++) {
-                                                    if (h == i) {
-                                                        table8 += "<td style='background-color:#f1c40f' class='hasil-matrix-disconcordance'>0</td>";
-                                                        table8 += "<td class='hasil-matrix-disconcordance'>" + hasil[h][i] + "</td>";
-                                                    } else {
-                                                        table8 += "<td class='hasil-matrix-disconcordance'>" + hasil[h][i] + "</td>";
-                                                    }
-                                                }
-                                                table8 += '</tr>'
-                                            }
-                                            table8 += "</table></div></div></div></div>";
-                                            $("#hasil-matrix-disconcordance").html(table8)
-                                            // console.log(collect_dis);
-                                            let collect = document.querySelectorAll(".sum-matrix-concordance")
-                                            let collect2 = document.querySelectorAll(".sum-matrix-disconcordance")
-                                            let hasil_con = document.querySelectorAll(".hasil-matrix-concordance")
-                                            let hasil_discon = document.querySelectorAll(".hasil-matrix-disconcordance")
-                                            let c = [];
-                                            let d = [];
-                                            let con = [];
-                                            let discon = [];
-                                            collect.forEach((a) => {
-                                                c.push(parseInt(a.innerHTML))
-                                            })
-                                            collect2.forEach((a) => {
-                                                d.push(parseFloat(a.innerHTML))
-                                            })
-                                            hasil_con.forEach((a) => {
-                                                con.push(parseInt(a.innerHTML))
-                                            })
-                                            hasil_discon.forEach((a) => {
-                                                discon.push(parseFloat(a.innerHTML))
-                                            })
-                                            discon.push(0)
-                                            let sum = c.reduce((accumulator, currentValue) => (accumulator + currentValue), 0);
-                                            let sum2 = d.reduce((accumulator, currentValue) => (accumulator + currentValue), 0);
-    
-                                            let sum_c = (sum / (alternatif * (alternatif - 1))).toFixed(4);
-                                            let sum_d = (sum2 / (alternatif * (alternatif - 1))).toFixed(4);
-                                            let array_con = createMultiDimArray(con, alternatif);
-                                            let array_discon = createMultiDimArray(discon, alternatif);
-    
-                                            let con_baru = array_con.map(sub_array => sub_array.map(nilai => nilai > sum_c ? 1 : 0));
-                                            let discon_baru = array_discon.map(sub_array => sub_array.map(nilai => nilai > sum_d ? 1 : 0));
-    
-                                            let resultArray = [];
-                                            if (con_baru.length === discon_baru.length) {
-                                                for (let i = 0; i < con_baru.length; i++) {
-                                                    let tempArray = [];
-                                                    // Pastikan array dalam con_baru dan discon_baru memiliki panjang yang sama
-                                                    if (con_baru[i].length === discon_baru[i].length) {
-                                                        for (let j = 0; j < con_baru[i].length; j++) {
-                                                            tempArray.push(con_baru[i][j] * discon_baru[i][j]);
-                                                        }
-                                                        resultArray.push(tempArray);
-                                                    } else {
-                                                        console.log("Panjang array di indeks " + i + " tidak sama.");
-                                                    }
-                                                }
-                                            } else {
-                                                console.log("Panjang array tidak sama.");
-                                            }
-    
-                                            // RENDER TABLE CONCORDANCE
-                                            let table10 = `<div class="row">
-                                                               <div class="col-sm-12">
-                                                                   <div class="card">
-                                                                       <div class="card-header">
-                                                                       <h2>Table Concordance</h2>
-                                                                       </div>
-                                                                       <div class="card-body">
-                                                                       <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
-    
-                                            // Menambahkan kolom untuk masing-masing transposedMatrix
-                                            for (let i = 0; i < con_baru[0].length; i++) {
-                                                table10 += "<th>A " + (i + 1) + "</th>";
-                                            }
-                                            table10 += "</tr>";
-                                            for (h = 0; h < con_baru.length; h++) {
-                                                // Mengisi tabel dengan data response.hasil
-                                                table10 += `<tr><td>A${h + 1}</td>`;
-                                                for (let i = 0; i < con_baru[h].length; i++) {
-                                                    table10 += "<td>" + con_baru[h][i] + "</td>";
-                                                }
-                                            }
-    
-                                            table10 += "</table></div></div></div></div>";
-                                            $("#concordance").html(table10)
-    
-                                            // RENDER TABLE DISCONCORDANCE
-                                            let table11 = `<div class="row">
-                                                               <div class="col-sm-12">
-                                                                   <div class="card">
-                                                                       <div class="card-header">
-                                                                       <h2>Table Concordance</h2>
-                                                                       </div>
-                                                                       <div class="card-body">
-                                                                       <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
-    
-                                            // Menambahkan kolom untuk masing-masing transposedMatrix
-                                            for (let i = 0; i < discon_baru[0].length; i++) {
-                                                table11 += "<th>A " + (i + 1) + "</th>";
-                                            }
-                                            table11 += "</tr>";
-                                            for (h = 0; h < discon_baru.length; h++) {
-                                                // Mengisi tabel dengan data response.hasil
-                                                table11 += `<tr><td>A${h + 1}</td>`;
-                                                for (let i = 0; i < discon_baru[h].length; i++) {
-                                                    table11 += "<td>" + discon_baru[h][i] + "</td>";
-                                                }
-                                            }
-    
-                                            table11 += "</table></div></div></div></div>";
-                                            $("#disconcordance").html(table11)
-    
-                                            // RENDER TABLE DISCONCORDANCE
-                                            let table12 = `<div class="row">
-                                                               <div class="col-sm-12">
-                                                                   <div class="card">
-                                                                       <div class="card-header">
-                                                                       <h2>Table Concordance</h2>
-                                                                       </div>
-                                                                       <div class="card-body">
-                                                                       <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
-    
-                                            // Menambahkan kolom untuk masing-masing transposedMatrix
-                                            for (let i = 0; i < resultArray[0].length; i++) {
-                                                table12 += "<th>A " + (i + 1) + "</th>";
-                                            }
-                                            table12 += "</tr>";
-                                            for (h = 0; h < resultArray.length; h++) {
-                                                // Mengisi tabel dengan data response.hasil
-                                                table12 += `<tr><td>A${h + 1}</td>`;
-                                                for (let i = 0; i < resultArray[h].length; i++) {
-                                                    table12 += "<td>" + resultArray[h][i] + "</td>";
-                                                }
-                                            }
-    
-                                            table12 += "</table></div></div></div></div>";
-                                            $("#disconcordance-agregate").html(table12)
-    
-                                            // PERANGKINGAN
-                                            let array_c = createMultiDimArray(c, alternatif - 1)
-                                            let array_d = createMultiDimArray(d, alternatif - 1)
-                                            let sum_array_c = sum_array_multi(array_c)
-                                            let sum_array_d = sum_array_multi(array_d)
-    
-                                            // RENDER TABLE DISCONCORDANCE
-                                            let tableRanking = `<div class="row">
-                                                               <div class="col-sm-12">
-                                                                   <div class="card">
-                                                                       <div class="card-header">
-                                                                       <h2>Table Ranking</h2>
-                                                                       </div>
-                                                                       <div class="card-body">
-                                                                       <table class='table table-bordered table-hover dtr-inline'>
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Alternatif</th>
-                                                                                <th>(Σ Concordance)</th>
-                                                                                <th>(Σ Disoncordance)</th>
-                                                                                <th>Σ Concordance - Σ Disconcordance</th>
-                                                                                <th>Ranking</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        `;
-    
-                                            // Menambahkan kolom untuk masing-masing transposedMatrix
-                                            let rank = [];
-                                            // RANKING
-                                            for (h = 0; h < sum_array_c.length; h++) {
-                                                rank.push(parseFloat(sum_array_c[h]) - parseFloat(sum_array_d[h]))
-                                            }
-                                            let final_rank = ranking(rank);
-                                            let rankTable = [];
-                                            // /RANKING
-                                            for (h = 0; h < sum_array_c.length; h++) {
-                                                rankTable.push([`A${h + 1}`, sum_array_c[h], sum_array_d[h].toFixed(4), (parseFloat(sum_array_c[h]) - parseFloat(sum_array_d[h])).toFixed(4), final_rank[h]])
-                                            }
-                                            let tableBaru = sortedArray(rankTable, 3);
-                                            for (h = 0; h < tableBaru.length; h++) {
-                                                tableRanking += `<tr>`;
-                                                tableRanking += `<td>${tableBaru[h][0]}</td>`;
-                                                tableRanking += `<td>${tableBaru[h][1]}</td>`;
-                                                tableRanking += `<td>${tableBaru[h][2]}</td>`;
-                                                tableRanking += `<td>${tableBaru[h][3]}</td>`;
-                                                tableRanking += `<td>${tableBaru[h][4]}</td>`;
-                                                tableRanking += `</tr>`;
-                                            }
-    
-                                            tableRanking += "</tbody></table></div></div></div></div>";
-                                            $("#perankingan").html(tableRanking)
                                         }
-                                    });
-                                },5000)
-                                
+                                        table8 += "</table></div></div></div></div>";
+                                        $("#hasil-matrix-disconcordance").html(table8)
+                                        // console.log(collect_dis);
+                                        let collect = document.querySelectorAll(".sum-matrix-concordance")
+                                        let collect2 = document.querySelectorAll(".sum-matrix-disconcordance")
+                                        let hasil_con = document.querySelectorAll(".hasil-matrix-concordance")
+                                        let hasil_discon = document.querySelectorAll(".hasil-matrix-disconcordance")
+                                        let c = [];
+                                        let d = [];
+                                        let con = [];
+                                        let discon = [];
+                                        collect.forEach((a) => {
+                                            c.push(parseInt(a.innerHTML))
+                                        })
+                                        collect2.forEach((a) => {
+                                            d.push(parseFloat(a.innerHTML))
+                                        })
+                                        hasil_con.forEach((a) => {
+                                            con.push(parseInt(a.innerHTML))
+                                        })
+                                        hasil_discon.forEach((a) => {
+                                            discon.push(parseFloat(a.innerHTML))
+                                        })
+                                        discon.push(0)
+                                        let sum = c.reduce((accumulator, currentValue) => (accumulator + currentValue), 0);
+                                        let sum2 = d.reduce((accumulator, currentValue) => (accumulator + currentValue), 0);
+
+                                        let sum_c = (sum / (alternatif * (alternatif - 1))).toFixed(4);
+                                        let sum_d = (sum2 / (alternatif * (alternatif - 1))).toFixed(4);
+                                        let array_con = createMultiDimArray(con, alternatif);
+                                        let array_discon = createMultiDimArray(discon, alternatif);
+
+                                        let con_baru = array_con.map(sub_array => sub_array.map(nilai => nilai > sum_c ? 1 : 0));
+                                        let discon_baru = array_discon.map(sub_array => sub_array.map(nilai => nilai > sum_d ? 1 : 0));
+
+                                        let resultArray = [];
+                                        if (con_baru.length === discon_baru.length) {
+                                            for (let i = 0; i < con_baru.length; i++) {
+                                                let tempArray = [];
+                                                // Pastikan array dalam con_baru dan discon_baru memiliki panjang yang sama
+                                                if (con_baru[i].length === discon_baru[i].length) {
+                                                    for (let j = 0; j < con_baru[i].length; j++) {
+                                                        tempArray.push(con_baru[i][j] * discon_baru[i][j]);
+                                                    }
+                                                    resultArray.push(tempArray);
+                                                } else {
+                                                    console.log("Panjang array di indeks " + i + " tidak sama.");
+                                                }
+                                            }
+                                        } else {
+                                            console.log("Panjang array tidak sama.");
+                                        }
+
+                                        // RENDER TABLE CONCORDANCE
+                                        let table10 = `<div class="row">
+                                                           <div class="col-sm-12">
+                                                               <div class="card">
+                                                                   <div class="card-header">
+                                                                   <h2>Table Concordance</h2>
+                                                                   </div>
+                                                                   <div class="card-body">
+                                                                   <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
+
+                                        // Menambahkan kolom untuk masing-masing transposedMatrix
+                                        for (let i = 0; i < con_baru[0].length; i++) {
+                                            table10 += "<th>A " + (i + 1) + "</th>";
+                                        }
+                                        table10 += "</tr>";
+                                        for (h = 0; h < con_baru.length; h++) {
+                                            // Mengisi tabel dengan data response.hasil
+                                            table10 += `<tr><td>A${h + 1}</td>`;
+                                            for (let i = 0; i < con_baru[h].length; i++) {
+                                                table10 += "<td>" + con_baru[h][i] + "</td>";
+                                            }
+                                        }
+
+                                        table10 += "</table></div></div></div></div>";
+                                        $("#concordance").html(table10)
+
+                                        // RENDER TABLE DISCONCORDANCE
+                                        let table11 = `<div class="row">
+                                                           <div class="col-sm-12">
+                                                               <div class="card">
+                                                                   <div class="card-header">
+                                                                   <h2>Table Concordance</h2>
+                                                                   </div>
+                                                                   <div class="card-body">
+                                                                   <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
+
+                                        // Menambahkan kolom untuk masing-masing transposedMatrix
+                                        for (let i = 0; i < discon_baru[0].length; i++) {
+                                            table11 += "<th>A " + (i + 1) + "</th>";
+                                        }
+                                        table11 += "</tr>";
+                                        for (h = 0; h < discon_baru.length; h++) {
+                                            // Mengisi tabel dengan data response.hasil
+                                            table11 += `<tr><td>A${h + 1}</td>`;
+                                            for (let i = 0; i < discon_baru[h].length; i++) {
+                                                table11 += "<td>" + discon_baru[h][i] + "</td>";
+                                            }
+                                        }
+
+                                        table11 += "</table></div></div></div></div>";
+                                        $("#disconcordance").html(table11)
+
+                                        // RENDER TABLE DISCONCORDANCE
+                                        let table12 = `<div class="row">
+                                                           <div class="col-sm-12">
+                                                               <div class="card">
+                                                                   <div class="card-header">
+                                                                   <h2>Table Concordance</h2>
+                                                                   </div>
+                                                                   <div class="card-body">
+                                                                   <table class='table table-bordered table-hover dtr-inline'><tr><th>Alternatif</th>`;
+
+                                        // Menambahkan kolom untuk masing-masing transposedMatrix
+                                        for (let i = 0; i < resultArray[0].length; i++) {
+                                            table12 += "<th>A " + (i + 1) + "</th>";
+                                        }
+                                        table12 += "</tr>";
+                                        for (h = 0; h < resultArray.length; h++) {
+                                            // Mengisi tabel dengan data response.hasil
+                                            table12 += `<tr><td>A${h + 1}</td>`;
+                                            for (let i = 0; i < resultArray[h].length; i++) {
+                                                table12 += "<td>" + resultArray[h][i] + "</td>";
+                                            }
+                                        }
+
+                                        table12 += "</table></div></div></div></div>";
+                                        $("#disconcordance-agregate").html(table12)
+
+                                        // PERANGKINGAN
+                                        let array_c = createMultiDimArray(c, alternatif - 1)
+                                        let array_d = createMultiDimArray(d, alternatif - 1)
+                                        let sum_array_c = sum_array_multi(array_c)
+                                        let sum_array_d = sum_array_multi(array_d)
+
+                                        // RENDER TABLE DISCONCORDANCE
+                                        let tableRanking = `<div class="row">
+                                                           <div class="col-sm-12">
+                                                               <div class="card">
+                                                                   <div class="card-header">
+                                                                   <h2>Table Ranking</h2>
+                                                                   </div>
+                                                                   <div class="card-body">
+                                                                   <table class='table table-bordered table-hover dtr-inline'>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Alternatif</th>
+                                                                            <th>(Σ Concordance)</th>
+                                                                            <th>(Σ Disoncordance)</th>
+                                                                            <th>Σ Concordance - Σ Disconcordance</th>
+                                                                            <th>Ranking</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    `;
+
+                                        // Menambahkan kolom untuk masing-masing transposedMatrix
+                                        let rank = [];
+                                        // RANKING
+                                        for (h = 0; h < sum_array_c.length; h++) {
+                                            rank.push(parseFloat(sum_array_c[h]) - parseFloat(sum_array_d[h]))
+                                        }
+                                        let final_rank = ranking(rank);
+                                        let rankTable = [];
+                                        // /RANKING
+                                        for (h = 0; h < sum_array_c.length; h++) {
+                                            rankTable.push([`A${h + 1}`, sum_array_c[h], sum_array_d[h].toFixed(4), (parseFloat(sum_array_c[h]) - parseFloat(sum_array_d[h])).toFixed(4), final_rank[h]])
+                                        }
+                                        let tableBaru = sortedArray(rankTable, 3);
+                                        for (h = 0; h < tableBaru.length; h++) {
+                                            tableRanking += `<tr>`;
+                                            tableRanking += `<td>${tableBaru[h][0]}</td>`;
+                                            tableRanking += `<td>${tableBaru[h][1]}</td>`;
+                                            tableRanking += `<td>${tableBaru[h][2]}</td>`;
+                                            tableRanking += `<td>${tableBaru[h][3]}</td>`;
+                                            tableRanking += `<td>${tableBaru[h][4]}</td>`;
+                                            tableRanking += `</tr>`;
+                                        }
+
+                                        tableRanking += "</tbody></table></div></div></div></div>";
+                                        $("#perankingan").html(tableRanking)
+                                    }
+                                });
 
                             }
                         });

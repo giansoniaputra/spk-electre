@@ -187,44 +187,29 @@ class PerhitunganElectreController extends Controller
         $kriterias = Kriteria::all();
         $newDis = array_chunk($dis, count($alternatifs) - 1);
         DB::table('matrik_disconcordances')->truncate();
-        // foreach ($newDis as $index => $row) {
-        //     foreach ($alternatifs as $index2 => $row2) {
-        //         foreach ($kriterias as $index3 => $row3) {
-        //             if ($index == $index2) {
-        //                 continue;
-        //             }
-        //             $data = [
-        //                 'AI' => $index + 1,
-        //                 'AJ' => $index2 + 1,
-        //                 'index' => $newDis[$index][$index2][$index3]
-        //             ];
-        //             MatrikDisconcordance::create($data);
-        //         }
-        //     }
-        // }
+        $fake_database = [];
         for ($i = 0; $i < count($newDis); $i++) {
             for ($j = 0; $j < count($alternatifs) - 1; $j++) {
                 for ($k = 0; $k < count($kriterias); $k++) {
                     if ($j >= $i) {
                         if ($newDis[$i][$j][$k] != 0) {
-
-                            $data = [
+                            $fake_database[] = [
                                 'AI' => $i + 1,
                                 'AJ' => $j + 2,
                                 'C' => $k + 1,
                                 'index' => $newDis[$i][$j][$k],
                             ];
-                            MatrikDisconcordance::create($data);
+                            // MatrikDisconcordance::create($data);
                         }
                     } else {
                         if ($newDis[$i][$j][$k] != 0) {
-                            $data = [
+                            $fake_database[] = [
                                 'AI' => $i + 1,
                                 'AJ' => $j + 1,
                                 'C' => $k + 1,
                                 'index' => $newDis[$i][$j][$k],
                             ];
-                            MatrikDisconcordance::create($data);
+                            // MatrikDisconcordance::create($data);
                         }
                     }
                 }
@@ -233,16 +218,16 @@ class PerhitunganElectreController extends Controller
 
         // MATRIX CONCORDANCE
         // $matrix_concordance = [];
-        $matrixs = MatrikDisconcordance::all();
+        $matrixs = $fake_database;
         $lastAI = 0;
         $lastAJ = 0;
         $hasil = [];
         DB::table('hasil_matrix_corcodances')->truncate();
         foreach ($matrixs as $index => $matrix) {
-            $AI = $matrix->AI;
-            $AJ = $matrix->AJ;
+            $AI = $matrix['AI'];
+            $AJ = $matrix['AJ'];
 
-            $C = $matrix->C;
+            $C = $matrix['C'];
 
             $atas = BobotNormalisasi::where('A', $AI)->where('C', $C)->first();
             $bawah = BobotNormalisasi::where('A', $AJ)->where('C', $C)->first();

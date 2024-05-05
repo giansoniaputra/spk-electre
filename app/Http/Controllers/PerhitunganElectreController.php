@@ -222,6 +222,7 @@ class PerhitunganElectreController extends Controller
         $lastAI = 0;
         $lastAJ = 0;
         $hasil = [];
+        $fake_database2 = [];
         DB::table('hasil_matrix_corcodances')->truncate();
         foreach ($matrixs as $index => $matrix) {
             $AI = $matrix['AI'];
@@ -234,12 +235,12 @@ class PerhitunganElectreController extends Controller
             // PEMBILANG ALTERNATIF
             // PEMBAGI ALTERNATIF
 
-            $data = [
+            $fake_database2[] = [
                 'A' => $AI,
                 'B' => $AJ,
                 'nilai' =>  $atas->nilai . '-' . $bawah->nilai,
             ];
-            HasilMatrixCorcodance::create($data);
+            // HasilMatrixCorcodance::create($data);
 
             // $matrix_concordance["A$AI - A$AJ"] = round((max($pembilang) / max($pembagi)), 4);
             // RESET
